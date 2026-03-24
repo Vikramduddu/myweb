@@ -25,11 +25,21 @@ jobs:
         run: mvn clean package
         #run: mvn clean install -f myweb/pom.xml  
 
+      - name: Get WAR file
+        id: war
+        run: |
+          echo "WAR_FILE=$(ls target/*.war | head -n 1)" >> $GITHUB_ENV  
+
       - name: Deploy to Tomcat
         run: |
           curl -v -u tomcat:tomcat@123 \
-          -T myweb/target/myweb.war \
-          "http://13.60.249.246/manager/text/deploy?path=/MyWebApp&update=true"  
+          --upload-file ${{ env.WAR_FILE }} \
+          "${{ secrets.TOMCAT_URL }}/manager/text/deploy?path=/myapp&update=true"
+      #  run: |
+       
+          #curl -v -u tomcat:tomcat@123 \
+           #-T myweb/target/myweb.war \
+         # "http://13.60.249.246/manager/text/deploy?path=/MyWebApp&update=true"  
 
       # 3️⃣ Give execute permission to Gradle
    #   - name: Grant execute permission

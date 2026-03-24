@@ -1,0 +1,57 @@
+name: Build and Deploy to Tomcat
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set up Java
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3️⃣ Give execute permission to Gradle
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      # 4️⃣ Build using Gradle
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      # 5️⃣ Upload artifact (WAR file)
+      - name: Upload WAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-war
+          path: build/libs/*.war
+
+      # 6️⃣ Deploy to Tomcat (via SCP)
+      - name: Deploy to Tomcat server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 13.60.249.246
+          username: tomcat
+          key: tomcat@123
+          source: "build/libs/*.war"
+          target: "/opt/tomcat/webapps/"
+
+      # 7️⃣ Restart Tomcat (optional)
+      - name: Restart Tomcat
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 13.60.249.246
+          username: tomcat
+          key: tomcat@123
+          script: |
+            sudo systemctl restart tomcat

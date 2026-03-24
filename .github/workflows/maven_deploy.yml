@@ -22,7 +22,8 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn clean install -f myweb/pom.xml  
+        run: mvn clean package
+        #run: mvn clean install -f myweb/pom.xml  
 
       - name: Deploy to Tomcat
         run: |

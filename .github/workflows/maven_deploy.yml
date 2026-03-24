@@ -32,10 +32,15 @@ jobs:
 
       - name: Deploy to Tomcat
         run: |
+          curl -v -u tomcat:tomcat@123 \
+          --upload-file ${{ env.WAR_FILE }} \
+          "http://13.60.249.246:8080/manager/text/deploy?path=/myapp&update=true"   
+
+      #- name: Deploy to Tomcat
+      #  run: |
      #     curl -v -u tomcat:tomcat@123 \
     #     --upload-file ${{ env.WAR_FILE }} \
      #     "http://13.60.249.246:8080/manager/text/deploy?path=/myapp&update=true"
-           curl -v -u tomcat:tomcat@123 \ --upload-file ${{ env.WAR_FILE }} \ "http://13.60.249.246:8080/manager/text/deploy?path=/myapp&update=true" 
 
       # 3️⃣ Give execute permission to Gradle
    #   - name: Grant execute permission

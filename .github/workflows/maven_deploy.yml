@@ -1,0 +1,42 @@
+name: Build and Deploy to Tomcat
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set up Java
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn clean install -f myweb/pom.xml  
+
+      - name: Deploy to Tomcat
+        run: |
+          curl -v -u tomcat:tomcat@123 \
+          -T myweb/target/myweb.war \
+          "http://13.60.249.246/manager/text/deploy?path=/MyWebApp&update=true"  
+
+      # 3️⃣ Give execute permission to Gradle
+   #   - name: Grant execute permission
+    #    run: chmod +x gradlew
+
+      # 4️⃣ Build using Gradle
+   #   - name: Build with Gradle
+    #    run: ./gradlew clean build
+
+      # 5️⃣ Upload artifact (WAR file)
+     

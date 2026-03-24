@@ -21,13 +21,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Build with Gradle
+        run: gradle clean build    
+
       # 3️⃣ Give execute permission to Gradle
-      - name: Grant execute permission
-        run: chmod +x gradlew
+   #   - name: Grant execute permission
+    #    run: chmod +x gradlew
 
       # 4️⃣ Build using Gradle
-      - name: Build with Gradle
-        run: ./gradlew clean build
+   #   - name: Build with Gradle
+    #    run: ./gradlew clean build
 
       # 5️⃣ Upload artifact (WAR file)
       - name: Upload WAR artifact

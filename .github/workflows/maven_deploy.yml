@@ -34,7 +34,7 @@ jobs:
         run: |
           curl -v -u tomcat:tomcat@123 \
           --upload-file ${{ env.WAR_FILE }} \
-          "${{ secrets.TOMCAT_URL }}/manager/text/deploy?path=/myapp&update=true"
+          "http://13.60.249.246/manager/text/deploy?path=/myapp&update=true"
       #  run: |
        
           #curl -v -u tomcat:tomcat@123 \

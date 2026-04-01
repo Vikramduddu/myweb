@@ -1,0 +1,18 @@
+name: Send Email Without Action
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install mail utils
+        run: sudo apt-get install -y mailutils
+
+      - name: Send Email
+        run: |
+            echo "Workflow completed!" | mail -s "GitHub Action" vikram.duddu@infosys.com      

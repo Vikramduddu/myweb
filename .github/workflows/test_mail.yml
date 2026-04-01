@@ -15,5 +15,5 @@ jobs:
 
       - name: Send Email
         run: |
-            echo "Workflow completed!" | mail -s "GitHub Action" vikram.duddu@infosys.com  
+            echo "Workflow completed!" | mail -s "GitHub Action" ayush.burbure@infosys.com  
     
